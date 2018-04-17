@@ -20,6 +20,8 @@
     "iconv-lite": "^0.4.21",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "superagent": "^3.8.2",
+    "superagent-charset": "^1.2.0"
   }
 }

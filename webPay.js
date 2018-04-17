@@ -1,9 +1,12 @@
 var express = require('express')
 var router = express.Router()
-var request = require('request')
+// var request = require('request')
 // 转码
-var iconv = require('iconv-lite');
+// var iconv = require('iconv-lite');
 var airPay_config = require('./airPay-config')
+const charset = require('superagent-charset');
+const request = require('superagent');
+charset(request);
 // 发起请求
 var app = express();
 // 定义配置
@@ -56,25 +59,26 @@ app.get('/airpay_test',function(req,res,next){
     // res.setHeader('Content-Type','text/javascript;charset=UTF-8');
     // 请求支付宝的url;
     // res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'});//设置response编码为utf-8
-    request.post({
-        url:encode_url,
-        encoding:'utf-8'
-    },function(error, response, body){
-        if(response.statusCode == 200){
-            // res.
-            // console.log(body);
-            // body = iconv.encode(body,'utf8');
-            // body = iconv.decode(body,'GB2312');
-            body = iconv.encode(body, 'utf8')
-        res.send(body)
-            
-            
+    // request.post(encode_url,function(error, response, body){
+    //     if(response.statusCode == 200){
+    //         // res.
+    //         // console.log(body);
+    //         // body = iconv.encode(body,'utf-8');
+    //         // body = iconv.decode(body,'GB2312');
+    //         // body = iconv.decode(body, 'utf-8')
+            request
+            .post(encode_url)
+            .charset('gbk')
+            .end((error, response) => {
+            console.log('--------------->', response.text);
+            res.send(response.text)
             console.log('\n\ndone!\n\n');
-        }
+            
+            });
+            
+        // }
 
-        // res.setHeader('charset','utf-8')
-    })
-    // res.send('body')
+    // })
 })
 
 app.listen(3000)
