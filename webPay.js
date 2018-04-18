@@ -12,26 +12,29 @@ var app = express();
 // 定义配置
 // 主要的url
 var url = 'https://openapi.alipay.com/gateway.do';
-var sign_ = 'QY0ezURnavWed1tlrQ+aerR8mmAdDwdbU5JkK2LG/VYzWQgqoxnlQcqTQnJClIlCsA/9aVzbsl0NvrFKvPUcNnxVqO+O3auqk2vV2SaLQ10XPmRET2MlVKrnZpr6RpLmjX9oIKp0WpJOF+OyQmirkYoPPmx5cSfyAUQduDJvfsVUm1KesywrGZG+wIZCJJ0n+lN5zZN1acgQVHew/jwjQfhsv6pB1+QTqkyoN22N4G8AV0atN7Wc2Dhv1F/YVsBPmDI6wtOfKeyZpgBZZjAlz+GwfgoKGso+H5+ZJMeyYNJxbOj3LhNETqF4giLL+68d2vwpZ9Ghw78CTrsUXgIVrQ=='
+var sign_ = 'GKvibu/dZUnNGLFcy114NT0TTY+OXxwI4YEENWCu3b3UV1bKHVGEufTEXrJ4JCRm9sO4RMmxJY9+ny/5YUR/ZFiyeCSS5zTmhpjD/3HOsIissb+f2QTVHIFOSFvxn4UMiIcwaCYx8FpgoJJQLNSLWika1pM5SXwVpiw29pgvqf+8TSocXVGIiExsi0bxIaC6aoOeyGcwxBIYojWK0SS1VPlj0SpKwiEuEWw1xPLFfjqXFn0/STUqeyEHuiikD0d7NLDbUHOsbMkrrLEz1yDQULc8jRMqtR6GeKp5dzLuDLoLhNOptygNLN3RXV2h7ziSB5Z9+qYVueTPOMgT+x47rw=='
 // var timestemp_= airPay_config.time();
 // var biz_content_ = airPay_config.biz_function();
 
 // 第一步请求
 var airPay_data  = new Map();
+
 airPay_data.set('app_id',airPay_config.AirPay_api.app_id);
-airPay_data.set('method','alipay.trade.app.pay');
+airPay_data.set('method','alipay.trade.wap.pay');
 airPay_data.set('charset','utf-8');
 airPay_data.set('sign_type','RSA2');
 airPay_data.set('sign',sign_);
 airPay_data.set('timestamp',airPay_config.time());
 airPay_data.set('version','1.0');
-airPay_data.set('notify_url','http://www.wusiqing.com/airpay');
+airPay_data.set('notify_url','http://wusiqing.com:3000/airpay');
 airPay_data.set('biz_content',airPay_config.biz_function());
 
 // 生成字符串
+
     // 存放参数链接
 var str = '';
 var i = 0;
+
 for(let [key,value] of airPay_data.entries()){
     i++;    
     console.log(key,value);
@@ -45,40 +48,34 @@ for(let [key,value] of airPay_data.entries()){
 
 console.log('\n\nstr:'+str)
 
+
+// 生成sign
+
+
+
+
 //  链接请求的url和后面的参数
 var url_ = url+'?'+str;
-// 按照chaset进行编码
+// 按照chaset进行编码,对中文进行编码
 var encode_url = encodeURI(url_);
-// console.log('\n\n进行encoude之后的url:'+encode_url)
+console.log('\n\n进行encoude之后的url:'+encode_url)
+
 
 
 
 
 
 app.get('/airpay_test',function(req,res,next){
-    // res.setHeader('Content-Type','text/javascript;charset=UTF-8');
-    // 请求支付宝的url;
-    // res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'});//设置response编码为utf-8
-    // request.post(encode_url,function(error, response, body){
-    //     if(response.statusCode == 200){
-    //         // res.
-    //         // console.log(body);
-    //         // body = iconv.encode(body,'utf-8');
-    //         // body = iconv.decode(body,'GB2312');
-    //         // body = iconv.decode(body, 'utf-8')
-            request
-            .post(encode_url)
-            .charset('gbk')
-            .end((error, response) => {
-            console.log('--------------->', response.text);
-            res.send(response.text)
-            console.log('\n\ndone!\n\n');
-            
-            });
-            
-        // }
+    request
+    .post(encode_url)
+    .charset('gbk')
+    .end((error, response) => {
+        console.log(response);
+        console.log(response.text);
+        res.send(response.text)
+        console.log('\n\ndone!\n\n');            
+    });
 
-    // })
 })
 
 app.listen(3000)
