@@ -11,7 +11,7 @@ exports.biz_function = function(){
     console.log('outTradeTd:'+outTradeId)
     biz_content = {
         body:'这是测试数据',
-        subject:'陌生人饭局v2.0',
+        subject:'测试商品名称',
         // 交易单号；
         out_trade_no:outTradeId,
         timeout_express:"1m",
