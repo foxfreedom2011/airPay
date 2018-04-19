@@ -8,13 +8,13 @@ exports.AirPay_api = {
 
 exports.biz_function = function(){
     var outTradeId = Date.now().toString();
-    
+    console.log('outTradeTd:'+outTradeId)
     biz_content = {
         body:'这是测试数据',
         subject:'陌生人饭局v2.0',
         // 交易单号；
         out_trade_no:outTradeId,
-
+        timeout_express:"1m",
         total_amount:'0.01',
         product_code:'QUICK_MSECURITY_PAY',
     }
